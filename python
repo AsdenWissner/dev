@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+# Fungsi untuk membentuk kurva hati menggunakan persamaan parametrik
+def heart_shape(t):
+    x = 16 * np.sin(t) ** 3
+    y = 13 * np.cos(t) - 5 * np.cos(2 * t) - 2 * np.cos(3 * t) - np.cos(4 * t)
+    return x, y
+
+# Membuat figure dan axis untuk animasi
+fig, ax = plt.subplots()
+ax.set_xlim(-20, 20)
+ax.set_ylim(-20, 20)
+
+# Membuat line object yang akan diperbarui selama animasi
+line, = ax.plot([], [], 'r', lw=2)
+
+# Fungsi untuk menginisialisasi animasi
+def init():
+    line.set_data([], [])
+    return line,
+
+# Fungsi untuk memperbarui animasi pada setiap frame
+def animate(i):
+    t = np.linspace(0, 2 * np.pi, i)
+    x, y = heart_shape(t)
+    line.set_data(x, y)
+    return line,
+
+# Membuat animasi
+ani = animation.FuncAnimation(fig, animate, frames=100, init_func=init, interval=50, blit=True)
+
+# Menampilkan animasi
+plt.show()
